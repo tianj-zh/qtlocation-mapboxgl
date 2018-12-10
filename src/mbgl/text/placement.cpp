@@ -246,7 +246,7 @@ void Placement::commit(const Placement& prevPlacement, TimePoint now) {
     bool placementChanged = false;
 
     float increment = mapMode == MapMode::Continuous && transitionOptions.enablePlacementTransitions ?
-        std::chrono::duration<float>(commitTime - prevPlacement.commitTime) / transitionOptions.duration.value_or(util::DEFAULT_TRANSITION_DURATION) :
+        std::chrono::duration<float>(commitTime - prevPlacement.commitTime) / Milliseconds(300):
         1.0;
 
     // add the opacities from the current placement, and copy their current values from the previous placement
@@ -406,7 +406,7 @@ void Placement::updateBucketOpacities(SymbolBucket& bucket, std::set<uint32_t>& 
 
 float Placement::symbolFadeChange(TimePoint now) const {
     if (mapMode == MapMode::Continuous && transitionOptions.enablePlacementTransitions) {
-        return std::chrono::duration<float>(now - commitTime) / transitionOptions.duration.value_or(util::DEFAULT_TRANSITION_DURATION);
+        return std::chrono::duration<float>(now - commitTime) / Milliseconds(300);
     } else {
         return 1.0;
     }
@@ -414,18 +414,14 @@ float Placement::symbolFadeChange(TimePoint now) const {
 
 bool Placement::hasTransitions(TimePoint now) const {
     if (mapMode == MapMode::Continuous && transitionOptions.enablePlacementTransitions) {
-        return stale || std::chrono::duration<float>(now - fadeStartTime) < transitionOptions.duration.value_or(util::DEFAULT_TRANSITION_DURATION);
+        return stale || std::chrono::duration<float>(now - fadeStartTime) < Milliseconds(300);
     } else {
         return false;
     }
 }
 
 bool Placement::stillRecent(TimePoint now) const {
-    // Even if transitionOptions.duration is set to a value < 300ms, we still wait for this default transition duration
-    // before attempting another placement operation.
-    return mapMode == MapMode::Continuous &&
-        transitionOptions.enablePlacementTransitions &&
-        commitTime + std::max(util::DEFAULT_TRANSITION_DURATION, transitionOptions.duration.value_or(util::DEFAULT_TRANSITION_DURATION)) > now;
+    return mapMode == MapMode::Continuous && commitTime + Milliseconds(300) > now;
 }
 
 void Placement::setStale() {
