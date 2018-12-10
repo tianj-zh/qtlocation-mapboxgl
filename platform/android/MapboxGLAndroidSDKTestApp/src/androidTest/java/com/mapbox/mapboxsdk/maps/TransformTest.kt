@@ -29,7 +29,7 @@ class TransformTest: BaseActivityTest() {
             val expectedCameraPosition = mapboxMap.cameraPosition
 
             mapboxMap.moveCamera(initialCameraUpdate)
-            mapboxMap.setPadding(250,250,0,0)
+            mapboxMap.setPadding(250f,250f,0f,0f)
             mapboxMap.moveCamera(scrollByCameraUpdate)
             val actualCameraPosition = mapboxMap.cameraPosition
 
@@ -56,7 +56,7 @@ class TransformTest: BaseActivityTest() {
             val expectedCameraPosition = mapboxMap.cameraPosition
 
             mapboxMap.moveCamera(initialCameraUpdate)
-            mapboxMap.setPadding(250,250,0,0)
+            mapboxMap.setPadding(250f,250f,0f,0f)
             mapboxMap.scrollBy(400.0f, 0.0f)
             val actualCameraPosition = mapboxMap.cameraPosition
 

@@ -342,7 +342,7 @@ public final class CameraUpdateFactory {
       // Calculate the new center point
       float viewPortWidth = uiSettings.getWidth();
       float viewPortHeight = uiSettings.getHeight();
-      int[] padding = mapboxMap.getPadding();
+      float[] padding = mapboxMap.getPadding();
 
       // we inverse the map padding, is reapplied when using moveTo/easeTo or animateTo
       PointF targetPoint = new PointF(

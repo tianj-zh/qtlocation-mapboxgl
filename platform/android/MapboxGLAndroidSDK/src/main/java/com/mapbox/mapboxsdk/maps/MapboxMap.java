@@ -1681,8 +1681,8 @@ public final class MapboxMap {
    * @param right  The right margin in pixels.
    * @param bottom The bottom margin in pixels.
    */
-  public void setPadding(int left, int top, int right, int bottom) {
-    projection.setContentPadding(new int[] {left, top, right, bottom});
+  public void setPadding(float left, float top, float right, float bottom) {
+    projection.setContentPadding(new float[] {left, top, right, bottom});
     uiSettings.invalidate();
   }
 
@@ -1692,7 +1692,7 @@ public final class MapboxMap {
    * @return An array with length 4 in the LTRB order.
    */
   @NonNull
-  public int[] getPadding() {
+  public float[] getPadding() {
     return projection.getContentPadding();
   }
 
