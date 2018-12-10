@@ -107,6 +107,7 @@
         <attr name="mapbox_enableTilePrefetch" format="boolean"/>
         <attr name="mapbox_enableZMediaOverlay" format="boolean"/>
         <attr name="mapbox_pixelRatio" format="float"/>
+        <attr name="mapbox_maximumFps" format="integer"/>
 
     </declare-styleable>
 

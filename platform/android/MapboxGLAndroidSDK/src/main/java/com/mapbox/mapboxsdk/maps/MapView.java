@@ -305,6 +305,7 @@ public class MapView extends FrameLayout implements NativeMapView.ViewCallback {
       addView(glSurfaceView, 0);
     }
 
+    mapRenderer.maximumFps(options.getMaximumFps());
     boolean crossSourceCollisions = mapboxMapOptions.getCrossSourceCollisions();
     nativeMapView = new NativeMapView(
       getContext(), getPixelRatio(), crossSourceCollisions, this, mapChangeReceiver, mapRenderer
@@ -422,18 +423,6 @@ public class MapView extends FrameLayout implements NativeMapView.ViewCallback {
 
     if (mapRenderer != null) {
       mapRenderer.onDestroy();
-    }
-  }
-
-  /**
-   *  The preferred frame rate at which the map view is rendered,
-   *  but it can't excess the ability of device hardware.
-   *
-   * @param preferredFramesPerSecond  Can be set to arbitrary integer values.
-   */
-  public void setPreferredFramesPerSecond(int preferredFramesPerSecond) {
-    if (mapRenderer != null) {
-      mapRenderer.setPreferredFramesPerSecond(preferredFramesPerSecond);
     }
   }
 

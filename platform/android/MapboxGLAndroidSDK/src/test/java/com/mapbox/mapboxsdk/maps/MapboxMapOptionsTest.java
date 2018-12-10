@@ -180,5 +180,15 @@ public class MapboxMapOptionsTest {
     assertTrue(new MapboxMapOptions().crossSourceCollisions(true).getCrossSourceCollisions());
     assertFalse(new MapboxMapOptions().crossSourceCollisions(false).getCrossSourceCollisions());
   }
+
+  @Test
+  public void testMaximumFps() {
+    // Default value
+    assertEquals(0, new MapboxMapOptions().getMaximumFps());
+
+    // check mutations
+    assertEquals(30, new MapboxMapOptions().maximusFps(30).getMaximumFps());
+    assertNotEquals(60, new MapboxMapOptions().maximusFps(30).getMaximumFps());
+  }
 }
 

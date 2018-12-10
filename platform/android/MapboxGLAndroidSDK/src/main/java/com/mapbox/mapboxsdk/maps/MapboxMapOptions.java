@@ -84,6 +84,8 @@ public class MapboxMapOptions implements Parcelable {
 
   private boolean crossSourceCollisions = true;
 
+  private int maximumFps;
+
   /**
    * Creates a new MapboxMapOptions object.
    */
@@ -133,6 +135,7 @@ public class MapboxMapOptions implements Parcelable {
     pixelRatio = in.readFloat();
     foregroundLoadColor = in.readInt();
     crossSourceCollisions = in.readByte() != 0;
+    maximumFps = in.readInt();
   }
 
   /**
@@ -235,6 +238,9 @@ public class MapboxMapOptions implements Parcelable {
       );
       mapboxMapOptions.crossSourceCollisions(
         typedArray.getBoolean(R.styleable.mapbox_MapView_mapbox_cross_source_collisions, true)
+      );
+      mapboxMapOptions.maximusFps(
+        typedArray.getInt(R.styleable.mapbox_MapView_mapbox_maximumFps, 0)
       );
     } finally {
       typedArray.recycle();
@@ -633,6 +639,18 @@ public class MapboxMapOptions implements Parcelable {
   }
 
   /**
+   * The maximum frame rate at which the map view is rendered,
+   * but it can't excess the ability of device hardware.
+   *
+   * @param maximusFps Can be set to arbitrary integer values.
+   */
+  @NonNull
+  public MapboxMapOptions maximusFps(int maximusFps) {
+    this.maximumFps = maximusFps;
+    return this;
+  }
+
+  /**
    * Check whether tile pre-fetching is enabled.
    *
    * @return true if enabled
@@ -927,6 +945,15 @@ public class MapboxMapOptions implements Parcelable {
     return pixelRatio;
   }
 
+  /**
+   * Return the custom configured pixel ratio, returns 0 if not configured.
+   *
+   * @return the maximum fps used by the map under construction
+   */
+  public int getMaximumFps() {
+    return maximumFps;
+  }
+
   public static final Parcelable.Creator<MapboxMapOptions> CREATOR = new Parcelable.Creator<MapboxMapOptions>() {
     public MapboxMapOptions createFromParcel(@NonNull Parcel in) {
       return new MapboxMapOptions(in);
@@ -983,6 +1010,7 @@ public class MapboxMapOptions implements Parcelable {
     dest.writeFloat(pixelRatio);
     dest.writeInt(foregroundLoadColor);
     dest.writeByte((byte) (crossSourceCollisions ? 1 : 0));
+    dest.writeInt(maximumFps);
   }
 
   @Override
@@ -1088,6 +1116,9 @@ public class MapboxMapOptions implements Parcelable {
     if (crossSourceCollisions != options.crossSourceCollisions) {
       return false;
     }
+    if (maximumFps != options.maximumFps) {
+      return false;
+    }
 
     return false;
   }
@@ -1129,6 +1160,7 @@ public class MapboxMapOptions implements Parcelable {
     result = 31 * result + (localIdeographFontFamily != null ? localIdeographFontFamily.hashCode() : 0);
     result = 31 * result + (int) pixelRatio;
     result = 31 * result + (crossSourceCollisions ? 1 : 0);
+    result = 31 * result + maximumFps;
     return result;
   }
 }
